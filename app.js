@@ -5,9 +5,10 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const expressLayouts = require('express-ejs-layouts');
 const {dbURL} = require('./config/db');
 
-const indexRouter = require('./routes/index');
+const productsRouter = require('./routes/products');
 
 const app = express();
 
@@ -18,18 +19,24 @@ mongoose.connect(dbURL, {useMongoClient: true})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.set('layout','layout');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(expressLayouts);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use((req,res,next) =>{
+  res.locals.title = 'HOLA QUE TAL';
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', indexRouter);
+app.use('/', productsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

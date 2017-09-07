@@ -1,0 +1,11 @@
+<ul>
+  <% products.forEach((product) => { %>
+    <li>
+      <%= product.name %> - $<%= product.price %>
+      <a href="/<%= product._id %>">View Details</a> |
+      <a href="/<%= product._id %>/edit/">Edit</a> |
+      <a href="/<%= product._id %>/delete/">Delete</a>
+    </li>
+  <%  }) %>
+</ul>
+<a href="/new">Add new product</a>
